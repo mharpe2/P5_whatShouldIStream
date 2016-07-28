@@ -1,0 +1,17 @@
+{
+    "lists": [{
+              "id": "571bb5f6c3a3686524001801",
+              "service": "Netflix",
+              "name": "NetflixTopMovies",
+              "type": "Movies"
+              "date": 
+              },
+              
+              {
+              "id": "573f2730c3a3687aca0032a3",
+              "service": "Amazon",
+              "name": "AmazonTopMovies",
+              "type": "Movies"
+              }
+              ]
+}
