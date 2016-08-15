@@ -13,16 +13,35 @@ import CoreData
 
 class StreamingServiceRow: UITableViewCell
 {
-    // set this in calling view controller
-    //var fetchedResultsController: FetchedResultsController<Movie>?
-    var viewController: UIViewController?
     @IBOutlet weak var collectionView: UICollectionView!
-       
-    var movies: [Movie]?
-    
-    var tableViewCell = UITableViewCell()
-   
 }
+
+//MARK: Delegate 
+
+extension StreamingServiceRow {
+    
+    func setCollectionViewDataSourceDelegate<D: protocol<UICollectionViewDataSource, UICollectionViewDelegate>>(dataSourceDelegate: D, forRow row: Int) {
+        
+        collectionView.delegate = dataSourceDelegate
+        collectionView.dataSource = dataSourceDelegate
+        collectionView.tag = row
+        collectionView.setContentOffset(collectionView.contentOffset, animated:false) // Stops collection view if it was scrolling.
+        collectionView.reloadData()
+    }
+    
+    var collectionViewOffset: CGFloat {
+        set {
+            collectionView.contentOffset.x = newValue
+        }
+        
+        get {
+            return collectionView.contentOffset.x
+        }
+    }
+    
+}
+
+//MARK: flowDelegate
 
 extension StreamingServiceRow: UICollectionViewDelegateFlowLayout {
     

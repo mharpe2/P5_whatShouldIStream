@@ -99,6 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     self.log.verbose("Error processing list to dictionary")
                     return
                 }
+                // lists
                 lists = List.listsFromResults(listsDict, context: self.mainContext() )
             }
             else {

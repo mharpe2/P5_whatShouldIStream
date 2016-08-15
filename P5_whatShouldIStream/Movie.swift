@@ -64,6 +64,8 @@ class Movie : NSManagedObject, CoreDataModelable {
         voteAverage = dictionary[Keys.voteAverage] as? NSNumber
         overview = dictionary[Keys.overview] as? String
         onWatchlist = dictionary[Keys.watchlist] as? NSNumber
+        service = dictionary[Keys.service] as? String
+
         
       if let array = dictionary[Keys.genresId] as? [NSNumber] {
             genreArray = array
@@ -101,6 +103,13 @@ class Movie : NSManagedObject, CoreDataModelable {
         }
         
         return movies
+    }
+    
+    static func moviesFromLists(lists: NSMutableOrderedSet) -> NSMutableOrderedSet {
+        
+        for l in lists {
+            
+        }
     }
     
     override func prepareForDeletion() {

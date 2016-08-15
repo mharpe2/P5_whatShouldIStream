@@ -65,6 +65,8 @@ class List : NSManagedObject, CoreDataModelable {
     static func listsFromResults(results: [[String : AnyObject]], context: NSManagedObjectContext?) -> NSMutableOrderedSet {
         
         var lists = NSMutableOrderedSet()
+        let log = XCGLogger.defaultInstance()
+        log.info("Creating Lists")
         
         for var result in results {
             
@@ -75,12 +77,15 @@ class List : NSManagedObject, CoreDataModelable {
                     let foundIt = try List.findFirstInContext(context!, predicate: predicate)
                     if foundIt == nil {
                         lists.addObject( List(dictionary: result, context: context!) )
+                        
                     }
                 }
                 catch _ {
                 }
             }
         }
+        
+        log.info("added \(lists.count) lists" )
         return lists
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -38,7 +38,7 @@
                                         <rect key="frame" x="0.0" y="28" width="600" height="115"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tAb-Wl-Pyk" id="B9f-JY-O21">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="114.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="115"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="odA-bS-SLf">
@@ -121,7 +121,7 @@
                                         <rect key="frame" x="0.0" y="28" width="600" height="99"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rmJ-8r-UDV" id="Wpc-4a-AVq">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="98.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="99"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5oJ-Jy-Hdh">
@@ -209,7 +209,7 @@
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pFb-td-HsO" id="osD-1B-HbK">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -254,7 +254,7 @@
                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="POR-qS-e1S" rowHeight="34" style="IBUITableViewCellStyleDefault" id="9FX-zb-Twk">
-                                <rect key="frame" x="0.0" y="49.5" width="600" height="34"/>
+                                <rect key="frame" x="0.0" y="50" width="600" height="34"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9FX-zb-Twk" id="2qa-Ic-whs">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="33.5"/>
@@ -308,7 +308,7 @@
         <!--ExploreScroll-->
         <scene sceneID="Fk7-US-GD1">
             <objects>
-                <viewController storyboardIdentifier="ExploreScrollView" title="Explore" id="dts-8r-9mT" userLabel="ExploreScroll" customClass="ExploreScrollViewController" customModule="P5_whatShouldIStream" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ExploreScrollView" title="Explore" id="dts-8r-9mT" userLabel="ExploreScroll" customClass="ExploreScrollViewController" customModule="P5_whatShouldIStream" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4cY-W3-Ydy"/>
                         <viewControllerLayoutGuide type="bottom" id="3PG-Ta-Uvi"/>
@@ -350,7 +350,7 @@
                                                         <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="5"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="movieCollectionViewCell" id="ldg-j4-BdS" customClass="MovieCollectionViewCell" customModule="P5_whatShouldIStream">
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MovieCollectionViewCell" id="ldg-j4-BdS" customClass="MovieCollectionViewCell" customModule="P5_whatShouldIStream">
                                                             <rect key="frame" x="5" y="11" width="109" height="127"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -374,10 +374,6 @@
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>
-                                                    <connections>
-                                                        <outlet property="dataSource" destination="pUN-M8-hME" id="bZ6-je-dEo"/>
-                                                        <outlet property="delegate" destination="pUN-M8-hME" id="w13-CY-B6W"/>
-                                                    </connections>
                                                 </collectionView>
                                             </subviews>
                                             <constraints>
@@ -388,12 +384,13 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="collectionView" destination="n3S-x0-3vB" id="1Qv-vZ-c1K"/>
+                                            <outlet property="collectionView" destination="n3S-x0-3vB" id="4o3-fV-b6G"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="dts-8r-9mT" id="fn3-dJ-kBJ"/>
+                                    <outlet property="delegate" destination="dts-8r-9mT" id="TdQ-iO-PAA"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -412,9 +409,6 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Explore" id="so2-Vd-eLw"/>
-                    <connections>
-                        <outlet property="tableView" destination="V6r-Kw-1Kw" id="Tkq-iN-ogz"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WJI-EX-5N8" sceneMemberID="firstResponder"/>
             </objects>
@@ -488,7 +482,7 @@
                                 <rect key="frame" x="0.0" y="336" width="600" height="240"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Txl-0M-gIt" id="KSF-7q-UHi">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="239.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="240"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gyh-r0-qTR">
