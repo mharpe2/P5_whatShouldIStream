@@ -4,4 +4,5 @@ target ‘P5_whatShouldIStream’ do
 	pod 'BNRCoreDataStack'
 	pod 'DZNEmptyDataSet'
 	pod 'ChameleonFramework/Swift'
+	pod 'NVActivityIndicatorView'
 end

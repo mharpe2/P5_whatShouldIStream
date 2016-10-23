@@ -4,17 +4,20 @@ PODS:
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
   - DZNEmptyDataSet (1.8)
+  - NVActivityIndicatorView (2.9)
 
 DEPENDENCIES:
   - BNRCoreDataStack
   - ChameleonFramework/Swift
   - DZNEmptyDataSet
+  - NVActivityIndicatorView
 
 SPEC CHECKSUMS:
   BNRCoreDataStack: 7eb40c619f517ac4cabcacbd5ab4715f649368a1
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   DZNEmptyDataSet: d2351b2e8daefa40433ef292e246e21f6be31a7b
+  NVActivityIndicatorView: 0084f6be71bdf4735b5424ebfb530b1e3db3276c
 
-PODFILE CHECKSUM: 1a88347b0e804d960a8cc6eaaaa60f86f15c1520
+PODFILE CHECKSUM: 0378b619e034141fd7105444dc81cc15ae8d380c
 
 COCOAPODS: 1.1.0.beta.1

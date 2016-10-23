@@ -23,7 +23,7 @@ class MovieDetailViewController: UITableViewController {
     var movie: Movie?
     
     var navItem = UINavigationItem()
-    var backItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: nil, action: #selector(buttonPressed))
+    var backItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: nil, action: #selector(buttonPressed))
 
     //    let titleItem = UINavigationItem()
     //    var tmdbRating: UILabel?
@@ -58,7 +58,7 @@ class MovieDetailViewController: UITableViewController {
         
         // table header mask layer
         headerMaskLayer = CAShapeLayer()
-        headerMaskLayer.fillColor = UIColor.blackColor().CGColor
+        headerMaskLayer.fillColor = UIColor.black.cgColor
         headerView.layer.mask = headerMaskLayer
         updateHeaderView()
 
@@ -106,7 +106,7 @@ class MovieDetailViewController: UITableViewController {
             self.posterImage.image = movie?.posterImage
         } else {
             if let posterPath = movie!.posterPath {
-                TheMovieDB.sharedInstance().taskForImageWithSize(TheMovieDB.PosterSizes.DetailPoster, filePath: posterPath, completionHandler: { (imageData, error) in
+                TheMovieDB.sharedInstance().taskForImageWithSize(TheMovieDB.PosterSizes.originalPoster, filePath: posterPath, completionHandler: { (imageData, error) in
                     if let image = UIImage(data: imageData!) {
                         dispatch_async(dispatch_get_main_queue()) {
                             self.posterImage.image! = image
@@ -128,7 +128,7 @@ class MovieDetailViewController: UITableViewController {
 //    }
     
     func buttonPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     func updateHeaderView() {
@@ -140,11 +140,11 @@ class MovieDetailViewController: UITableViewController {
         headerView.frame = headerRect
         
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: 0, y: 0))
-        path.addLineToPoint(CGPoint(x: headerRect.width, y: 0))
-        path.addLineToPoint(CGPoint(x: headerRect.width, y: headerRect.height))
-        path.addLineToPoint(CGPoint(x: 0, y: headerRect.height - kTableHeaderCutAway))
-        headerMaskLayer?.path = path.CGPath
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: headerRect.width, y: 0))
+        path.addLine(to: CGPoint(x: headerRect.width, y: headerRect.height))
+        path.addLine(to: CGPoint(x: 0, y: headerRect.height - kTableHeaderCutAway))
+        headerMaskLayer?.path = path.cgPath
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -156,16 +156,16 @@ class MovieDetailViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MovieDetailCell") as! MovieDetailCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieDetailCell") as! MovieDetailCell
         cell.overview.text = movie?.overview
         cell.overview.numberOfLines = 0
         cell.overview.sizeToFit()
         
         
-        let formater = NSNumberFormatter()
+        let formater = NumberFormatter()
         formater.maximumFractionDigits = 1
         if let rating = movie?.voteAverage {
-            if let vote = formater.stringFromNumber(rating) {
+            if let vote = formater.string(from: rating) {
                 cell.rating!.text = "TMDB Rating: \(vote)"
             }
         }
@@ -189,7 +189,7 @@ class MovieDetailViewController: UITableViewController {
     @IBAction func addToWatchList(sender: AnyObject) {
         if let favoriteMovie = movie {
             print("add to Favorites")
-            favoriteMovie.onWatchlist = NSNumber(bool: true)
+            favoriteMovie.onWatchlist = NSNumber(value: true)
             CoreDataStackManager.sharedInstance().coreDataStack!.mainQueueContext.saveContext()
         }
     }

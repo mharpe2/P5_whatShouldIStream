@@ -46,7 +46,7 @@ class ImageCache {
             inMemoryCache.removeObjectForKey(path)
             
             do {
-                try NSFileManager.defaultManager().removeItemAtPath(path)
+                try FileManager.defaultManager().removeItemAtPath(path)
             } catch _ {}
             
             return
@@ -63,9 +63,9 @@ class ImageCache {
     // MARK: - Helper
     
     func pathForIdentifier(identifier: String) -> String {
-        let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-        let fullURL = documentsDirectoryURL.URLByAppendingPathComponent(identifier)
+        let documentsDirectoryURL: NSURL = FileManager.defaultManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+        let fullURL = documentsDirectoryURL.appendingPathComponent(identifier)
         
-        return fullURL.path!
+        return fullURL!.path
     }
 }

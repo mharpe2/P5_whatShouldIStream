@@ -11,6 +11,6 @@ import UIKit
 class MovieCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var picture: UIImageView!
-
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
 }

@@ -3,15 +3,22 @@
               "id": "571bb5f6c3a3686524001801",
               "service": "Netflix",
               "name": "NetflixTopMovies",
-              "type": "Movies"
-              "date": 
+              "type": "Movies",
+              "index": 0,
+              "date": "2016-8-1",
+              "group": "top"
               },
               
               {
               "id": "573f2730c3a3687aca0032a3",
               "service": "Amazon",
               "name": "AmazonTopMovies",
-              "type": "Movies"
+              "type": "Movies",
+              "index": 1,
+              "date": "2016-8-1",
+              "group": "top"
+              
               }
               ]
 }
+

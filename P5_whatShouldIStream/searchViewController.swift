@@ -16,7 +16,7 @@ class searchViewController: UIViewController, DZNEmptyDataSetSource, DZNEmptyDat
     //@IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
-    var searchTask: NSURLSessionDataTask!
+    var searchTask: URLSessionDataTask!
     var guideboxResults = [GuideBoxSearchResults]()
     var searchController = UISearchController(searchResultsController: nil)
     var searchBar: UISearchBar!
@@ -55,6 +55,7 @@ class searchViewController: UIViewController, DZNEmptyDataSetSource, DZNEmptyDat
         tableView.dataSource = self
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
+        tableView.contentMode = UIViewContentMode.center
         
         
         searchController.searchResultsUpdater = self
@@ -62,6 +63,8 @@ class searchViewController: UIViewController, DZNEmptyDataSetSource, DZNEmptyDat
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         searchBar = searchController.searchBar
+        
+        self.tableView.tableFooterView = UIView();
     }
     
     override func didReceiveMemoryWarning() {
@@ -74,7 +77,11 @@ class searchViewController: UIViewController, DZNEmptyDataSetSource, DZNEmptyDat
     }
     
     func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "filmRole")
+        scrollView.contentMode = UIViewContentMode.scaleAspectFit
+        let image = UIImage(named: "spaceship")
+        
+        
+        return UIImage(named: "spaceship")
     }
 }
 
@@ -136,7 +143,7 @@ extension searchViewController: UITableViewDelegate, UITableViewDataSource {
         let CellReuseId = "movieSearchResults"
         let movie = guideboxResults[indexPath.row]
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier(CellReuseId)
+        if let cell = tableView.dequeueReusableCell(withIdentifier: CellReuseId)
         {
             configureCell(cell, movie: movie)
             return cell

@@ -1,0 +1,28 @@
+
+
+10/5/16
+Whats Left
+
+1. Genres
+2. Settings
+3. Amazon Web Services
+4. Connection status / pop up
+
+
+
+// When this is happening
+var fetchedResultsController = FetchedResultsController<Movie>(fetchRequest: fetchRequest,
+managedObjectContext: self.mainContext(),
+sectionNameKeyPath: "list.name" ,cacheName: nil)
+
+fetchedResultsController.sections![1].objects[0].list.name
+(String?) $R11 = "AmazonTopMovies"
+
+p fetchedResultsController.sections![1].objects[0].title
+(String?) $R10 = "Ex Machina"
+
+p fetchedResultsController.sections![2].objects[0].list.name
+(String?) $R13 = "NetflixTopMovies"
+
+p fetchedResultsController.sections![2].objects[5].title
+(String?) $R14 = "Y tu mamá también"

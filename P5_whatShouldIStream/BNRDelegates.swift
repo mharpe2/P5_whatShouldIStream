@@ -9,9 +9,8 @@
 import BNRCoreDataStack
 import CoreData
 
-//MARK: BNR Delegate
 
-//MARK: TableView Delegate
+//MARK: Movie TableView Fetched Results ----------------------------------------------
 
 class MoviesFetchedResultsTableViewControllerDelegate: FetchedResultsControllerDelegate {
     
@@ -32,14 +31,17 @@ class MoviesFetchedResultsTableViewControllerDelegate: FetchedResultsControllerD
     }
     
     func fetchedResultsControllerDidChangeContent(controller: FetchedResultsController<Movie>) {
+        
         tableView?.endUpdates()
     }
     
     func fetchedResultsController(controller: FetchedResultsController<Movie>,
                                   didChangeObject change: FetchedResultsObjectChange<Movie>) {
+        
         switch change {
         case let .Insert(_, indexPath):
             tableView?.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            //tableView?.reloadData()
             
         case let .Delete(_, indexPath):
             tableView?.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -55,8 +57,8 @@ class MoviesFetchedResultsTableViewControllerDelegate: FetchedResultsControllerD
     func fetchedResultsController(controller: FetchedResultsController<Movie>,
                                   didChangeSection change: FetchedResultsSectionChange<Movie>) {
         switch change {
-        case let .Insert(_, index):
-            tableView?.insertSections(NSIndexSet(index: index), withRowAnimation: .Automatic)
+        case let .Insert(_, index): break
+         tableView?.insertSections(NSIndexSet(index: index), withRowAnimation: .Automatic)
             
         case let .Delete(_, index):
             tableView?.deleteSections(NSIndexSet(index: index), withRowAnimation: .Automatic)
@@ -65,12 +67,71 @@ class MoviesFetchedResultsTableViewControllerDelegate: FetchedResultsControllerD
 }
 
 
+//MARK: List TableView Fetched Results ----------------------------------------------
+
+class ListFetchedResultsTableViewControllerDelegate: FetchedResultsControllerDelegate {
+    
+    private weak var tableView: UITableView?
+    
+    // MARK: - Lifecycle
+    
+    init(tableView: UITableView) {
+        self.tableView = tableView
+    }
+    
+    func fetchedResultsControllerDidPerformFetch(controller: FetchedResultsController<List>) {
+        tableView?.reloadData()
+    }
+    
+    func fetchedResultsControllerWillChangeContent(controller: FetchedResultsController<List>) {
+        tableView?.beginUpdates()
+    }
+    
+    func fetchedResultsControllerDidChangeContent(controller: FetchedResultsController<List>) {
+        
+        tableView?.endUpdates()
+    }
+    
+    func fetchedResultsController(controller: FetchedResultsController<List>,
+                                  didChangeObject change: FetchedResultsObjectChange<List>) {
+       switch change {
+        case let .Insert(_, indexPath):
+            tableView?.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            tableView?.reloadData()
+            
+            
+        case let .Delete(_, indexPath):
+            tableView?.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            
+        case let .Move(_, fromIndexPath, toIndexPath):
+            tableView?.moveRowAtIndexPath(fromIndexPath, toIndexPath: toIndexPath)
+            
+        case let .Update(_, indexPath):
+            tableView?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        }
+    }
+    
+    func fetchedResultsController(controller: FetchedResultsController<List>,
+                                  didChangeSection change: FetchedResultsSectionChange<List>) {
+        switch change {
+        case let .Insert(_, index): break
+            tableView?.insertSections(NSIndexSet(index: index), withRowAnimation: .Automatic)
+            //  tableView?.inse
+            
+        case let .Delete(_, index):
+            tableView?.deleteSections(NSIndexSet(index: index), withRowAnimation: .Automatic)
+        }
+    }
+}
+
+
+
 //MARK: Collection View Delegate
 
 class MoviesFetchedResultsCollectionViewControllerDelegate: FetchedResultsControllerDelegate {
     
     private weak var collectionView: UICollectionView?
-    private var blockOperations: [NSBlockOperation] = []
+    private var blockOperations: [BlockOperation] = []
     
     
     // MARK: - Lifecycle
@@ -82,7 +143,7 @@ class MoviesFetchedResultsCollectionViewControllerDelegate: FetchedResultsContro
     //MARK: Deinit
     deinit {
         blockOperations.forEach { $0.cancel() }
-        blockOperations.removeAll(keepCapacity: false)
+        blockOperations.removeAll(keepingCapacity: false)
     }
     
     
@@ -111,7 +172,7 @@ class MoviesFetchedResultsCollectionViewControllerDelegate: FetchedResultsContro
         switch change {
             
         case let .Insert(_, index):
-            let op = NSBlockOperation { [weak self] in
+            let op = BlockOperation { [weak self] in
                 self!.collectionView?.insertSections(NSIndexSet(index: index) )
             }
             blockOperations.append(op)

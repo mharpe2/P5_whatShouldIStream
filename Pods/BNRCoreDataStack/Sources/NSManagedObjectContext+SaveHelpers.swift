@@ -8,7 +8,7 @@
 
 import CoreData
 
-public typealias CoreDataStackSaveCompletion = CoreDataStack.SaveResult -> Void
+public typealias CoreDataStackSaveCompletion = (CoreDataStack.SaveResult) -> Void
 
 /**
  Convenience extension to `NSManagedObjectContext` that ensures that saves to contexts of type
@@ -24,10 +24,10 @@ public extension NSManagedObjectContext {
     */
     public func saveContextAndWait() throws {
         switch concurrencyType {
-        case .ConfinementConcurrencyType:
+        case .confinementConcurrencyType:
             try sharedSaveFlow()
-        case .MainQueueConcurrencyType,
-             .PrivateQueueConcurrencyType:
+        case .mainQueueConcurrencyType,
+             .privateQueueConcurrencyType:
             try performAndWaitOrThrow(sharedSaveFlow)
         }
     }
@@ -38,26 +38,26 @@ public extension NSManagedObjectContext {
 
     - parameter completion: Completion closure with a `SaveResult` to be executed upon the completion of the save operation.
     */
-    public func saveContext(completion: CoreDataStackSaveCompletion? = nil) {
+    public func saveContext(_ completion: CoreDataStackSaveCompletion? = nil) {
         func saveFlow() {
             do {
                 try sharedSaveFlow()
-                completion?(.Success)
+                completion?(.success)
             } catch let saveError {
-                completion?(.Failure(saveError))
+                completion?(.failure(saveError))
             }
         }
 
         switch concurrencyType {
-        case .ConfinementConcurrencyType:
+        case .confinementConcurrencyType:
             saveFlow()
-        case .PrivateQueueConcurrencyType,
-        .MainQueueConcurrencyType:
-            performBlock(saveFlow)
+        case .privateQueueConcurrencyType,
+        .mainQueueConcurrencyType:
+            perform(saveFlow)
         }
     }
 
-    private func sharedSaveFlow() throws {
+    fileprivate func sharedSaveFlow() throws {
         guard hasChanges else {
             return
         }

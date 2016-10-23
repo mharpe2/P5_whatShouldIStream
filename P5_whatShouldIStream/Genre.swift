@@ -27,15 +27,15 @@ class Genre : NSManagedObject, CoreDataModelable {
     @NSManaged var name: String?
     @NSManaged var movies: NSMutableSet? // relationship
     
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super(entity: entity, insertInto: context)
     }
     
     init(dictionary: [String : AnyObject], context: NSManagedObjectContext) {
         
         // Core Data
-        let entity =  NSEntityDescription.entityForName("Genre", inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        let entity =  NSEntityDescription.entity(forEntityName: "Genre", in: context)!
+        super(entity: entity, insertInto: context)
         
         // Dictionary
         id = dictionary[keys.id] as? NSNumber
@@ -47,19 +47,31 @@ class Genre : NSManagedObject, CoreDataModelable {
     init(id: Int, name: String, context: NSManagedObjectContext) {
         
         // Core Data
-        let entity =  NSEntityDescription.entityForName("Genre", inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        let entity =  NSEntityDescription.entity(forEntityName: "Genre", in: context)!
+        super(entity: entity, insertInto: context)
         
         // Dictionary
-        self.id = id
+        self.id = id as NSNumber?
         self.name = name
     }
+    
+    static func genreFromResults(results: [Int : String],  context: NSManagedObjectContext?) -> NSMutableOrderedSet {
+        
+        let genres = NSMutableOrderedSet()
+        
+        for (key,value) in results {
+            genres.add( Genre(id: key, name: value, context: context!) )
+        }
+        
+        return genres
+    }
+
     
     // Assign movies to genres / movies to genres
     func genreFromMovies( movies: [Movie] ) {
         for movie in movies {
             for genre in movie.genreArray {
-                if let genre = fetchGenreWithId(genre) {
+                if let genre = Genre.fetchGenreWithId(genre) {
                     genre.movies?.addObject(movies)
                 }
                 
@@ -69,7 +81,7 @@ class Genre : NSManagedObject, CoreDataModelable {
     
     
     // retrieve genre
-    func fetchGenreWithId(id: NSNumber) -> Genre? {
+    static func fetchGenreWithId(id: NSNumber) -> Genre? {
         
         var genre: Genre? = nil
         
@@ -86,6 +98,33 @@ class Genre : NSManagedObject, CoreDataModelable {
         
         return genre
     }
+    
+    class func genreFromDictionary(dictionary: [String: AnyObject], inManagedObjectContext context: NSManagedObjectContext ) -> Genre? {
+        
+        let log = XCGLogger.defaultInstance()
+        
+        // Dictionary
+        guard let id = dictionary[keys.id] as? NSNumber,
+           let name = dictionary[keys.name] as? String else {
+                log.error("could not find id or name in dictionary")
+                return nil
+        }
+        
+        let request = NSFetchRequest(entityName: Genre.entityName)
+        request.predicate = NSPredicate(format: "id = %@", id)
+        
+        if let genre = (try? context.executeFetchRequest(request))?.first as? Genre {
+            return genre
+        } else {
+            
+        let genre = Genre(dictionary: dictionary, context: context)  // NSEntityDescription.insertNewObjectForEntityForName("Genre", inManagedObjectContext: context) as? Genre {
+           // genre.id = id
+            //genre.name = name
+            return genre
+        }
+        return nil
+    }
+
 
     
     

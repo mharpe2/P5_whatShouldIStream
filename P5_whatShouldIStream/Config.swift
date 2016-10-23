@@ -18,8 +18,8 @@ import XCGLogger
  */
 
 // MARK: - Files Support
-private let _documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-private let _fileURL: NSURL = _documentsDirectoryURL.URLByAppendingPathComponent("TheMovieDB-Context")
+private let _documentsDirectoryURL: NSURL = FileManager.defaultManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+private let _fileURL: NSURL = _documentsDirectoryURL.appendingPathComponent("TheMovieDB-Context")
 
 
 class Config: NSObject, NSCoding {
@@ -71,7 +71,7 @@ class Config: NSObject, NSCoding {
     var daysSinceLastUpdate: Int? {
         
         if let lastUpdate = dateUpdated {
-            return Int(NSDate().timeIntervalSinceDate(lastUpdate)) / 60*60*24
+            return Int(NSDate().timeIntervalSince(lastUpdate as Date)) / 60*60*24
         } else {
             return nil
         }
@@ -114,21 +114,21 @@ class Config: NSObject, NSCoding {
     let genreKey = "config.genre_key"
     
     required init?(coder aDecoder: NSCoder) {
-        baseImageURLString = aDecoder.decodeObjectForKey(BaseImageURLStringKey) as! String
-        secureBaseImageURLString = aDecoder.decodeObjectForKey(SecureBaseImageURLStringKey) as! String
-        posterSizes = aDecoder.decodeObjectForKey(PosterSizesKey) as! [String]
-        profileSizes = aDecoder.decodeObjectForKey(ProfileSizesKey) as! [String]
-        dateUpdated = aDecoder.decodeObjectForKey(DateUpdatedKey) as? NSDate
-        genres = aDecoder.decodeObjectForKey(genreKey) as? [Int: String]
+        baseImageURLString = aDecoder.decodeObject(forKey: BaseImageURLStringKey) as! String
+        secureBaseImageURLString = aDecoder.decodeObject(forKey: SecureBaseImageURLStringKey) as! String
+        posterSizes = aDecoder.decodeObject(forKey: PosterSizesKey) as! [String]
+        profileSizes = aDecoder.decodeObject(forKey: ProfileSizesKey) as! [String]
+        dateUpdated = aDecoder.decodeObject(forKey: DateUpdatedKey) as? NSDate
+        genres = aDecoder.decodeObject(forKey: genreKey) as? [Int: String]
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(baseImageURLString, forKey: BaseImageURLStringKey)
-        aCoder.encodeObject(secureBaseImageURLString, forKey: SecureBaseImageURLStringKey)
-        aCoder.encodeObject(posterSizes, forKey: PosterSizesKey)
-        aCoder.encodeObject(profileSizes, forKey: ProfileSizesKey)
-        aCoder.encodeObject(dateUpdated, forKey: DateUpdatedKey)
-        aCoder.encodeObject(genres, forKey: genreKey)
+        aCoder.encode(baseImageURLString, forKey: BaseImageURLStringKey)
+        aCoder.encode(secureBaseImageURLString, forKey: SecureBaseImageURLStringKey)
+        aCoder.encode(posterSizes, forKey: PosterSizesKey)
+        aCoder.encode(profileSizes, forKey: ProfileSizesKey)
+        aCoder.encode(dateUpdated, forKey: DateUpdatedKey)
+        aCoder.encode(genres, forKey: genreKey)
     }
     
     func save() {
@@ -137,8 +137,8 @@ class Config: NSObject, NSCoding {
     
     class func unarchivedInstance() -> Config? {
         
-        if NSFileManager.defaultManager().fileExistsAtPath(_fileURL.path!) {
-            return NSKeyedUnarchiver.unarchiveObjectWithFile(_fileURL.path!) as? Config
+        if FileManager.default.fileExists(atPath: _fileURL.path!) {
+            return NSKeyedUnarchiver.unarchiveObject(withFile: _fileURL.path!) as? Config
         } else {
             return nil
         }

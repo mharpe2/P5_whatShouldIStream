@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15F34" minimumToolsVersion="Xcode 4.3">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G1004" minimumToolsVersion="Xcode 4.3">
     <entity name="Genre" representedClassName=".Genre" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -7,19 +7,22 @@
     </entity>
     <entity name="List" representedClassName=".List" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="group" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="index" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="service" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Movie" inverseName="list" inverseEntity="Movie" syncable="YES"/>
     </entity>
     <entity name="Movie" representedClassName=".Movie" syncable="YES">
         <attribute name="guideBoxId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="largestPosterPath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="onWatchlist" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="overview" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="posterPath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="releaseDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="service" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="voteAverage" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
@@ -35,7 +38,7 @@
     </entity>
     <elements>
         <element name="Genre" positionX="-54" positionY="63" width="128" height="90"/>
-        <element name="List" positionX="-54" positionY="45" width="128" height="120"/>
+        <element name="List" positionX="-54" positionY="45" width="128" height="165"/>
         <element name="Movie" positionX="-63" positionY="-18" width="128" height="240"/>
         <element name="Person" positionX="-54" positionY="-9" width="128" height="105"/>
     </elements>

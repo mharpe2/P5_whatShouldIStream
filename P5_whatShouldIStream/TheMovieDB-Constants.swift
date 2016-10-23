@@ -162,6 +162,7 @@ extension TheMovieDB {
         
         static let RowPoster = TheMovieDB.sharedInstance().config.posterSizes[2]
         static let DetailPoster = TheMovieDB.sharedInstance().config.posterSizes[4]
+        static let originalPoster = TheMovieDB.sharedInstance().config.posterSizes[6]
         
     }
 }

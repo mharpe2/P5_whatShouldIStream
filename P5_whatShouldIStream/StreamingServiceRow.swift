@@ -20,7 +20,7 @@ class StreamingServiceRow: UITableViewCell
 
 extension StreamingServiceRow {
     
-    func setCollectionViewDataSourceDelegate<D: protocol<UICollectionViewDataSource, UICollectionViewDelegate>>(dataSourceDelegate: D, forRow row: Int) {
+    func setCollectionViewDataSourceDelegate<D: UICollectionViewDataSource & UICollectionViewDelegate(dataSourceDelegate: D, forRow row: Int) {
         
         collectionView.delegate = dataSourceDelegate
         collectionView.dataSource = dataSourceDelegate
@@ -43,15 +43,14 @@ extension StreamingServiceRow {
 
 //MARK: flowDelegate
 
-extension StreamingServiceRow: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let itemsPerRow: CGFloat = 4
-        let hardCodedPadding: CGFloat = 5
-        let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
-        let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)
-        return CGSize(width: itemWidth, height: itemHeight)
-        
-    }
-    
-}
+//extension StreamingServiceRow: UICollectionViewDelegateFlowLayout {
+//    
+//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+//        let itemsPerRow: CGFloat = 4
+//        let hardCodedPadding: CGFloat = 5
+//        let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
+//        let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)
+//        return CGSize(width: itemWidth, height: itemHeight)
+//           }
+
+

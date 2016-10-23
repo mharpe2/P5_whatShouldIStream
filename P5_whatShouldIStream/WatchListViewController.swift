@@ -11,8 +11,13 @@ import BNRCoreDataStack
 import CoreData
 
 class WatchListViewController: UIViewController {
-
-    @IBOutlet weak var tableView: UITableView!
+    
+    let log = XCGLogger.defaultInstance()
+    
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    //MARK: Coredata -----------------------------------------------------------
     
     lazy var mainContext = {
         return CoreDataStackManager.sharedInstance().coreDataStack!.mainQueueContext
@@ -34,149 +39,80 @@ class WatchListViewController: UIViewController {
         return fetchedResultsController
     }()
     
-    lazy var frcDelegate: MoviesFetchedResultsTableViewControllerDelegate = {
-        return MoviesFetchedResultsTableViewControllerDelegate(tableView: self.tableView )
+    lazy var frcDelegate: MoviesFetchedResultsCollectionControllerDelegate = {
+        return MoviesFetchedResultsTableViewControllerDelegate(tableView: self.collectionView )
     }()
-
     
+    //MARK: Life Cycle ---------------------------------------------------------
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
         self.fetchedResultsController.setDelegate(self.frcDelegate)
-
-       
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        
         // perform fetch
-        do {
-            try self.fetchedResultsController.performFetch()
-        } catch let error as NSError {
-            print("Error performing fetch")
+        
+        mainContext().performBlockAndWait() {
+            //dispatch_async(dispatch_get_main_queue()) {
+            do {
+                
+                try self.fetchedResultsController.performFetch()
+                
+                //self.tableView.delegate = self
+                //self.tableView.dataSource = self
+                
+            } catch let error as NSError {
+                print("Error performing fetch")
+            }
+            if self.fetchedResultsController.fetchedObjects?.count == 0{
+                print("no results from fetched results")
+            } else {
+                self.log.info("Count: \(self.fetchedResultsController.fetchedObjects?.count)")
+                dispatch_async(dispatch_get_main_queue() ) {
+                    self.collectionView.reloadData()
+                }
+                
+            }
+        } // end performblockandwait
+        
+        
+        dispatch_get_main_queue().asynchronously(DispatchQueue.main) {
+            self.collectionView.reloadData()
         }
-        if self.fetchedResultsController.fetchedObjects?.count == 0{
-            print("no results from fetched results")
-        } else {
-            print("results > 0")
-        }
-
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(true)
-        //tableView.reloadData()
-    }
     
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }
 
-extension WatchListViewController: UITableViewDelegate, UITableViewDataSource  {
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+extenstion WatchlistViewController UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    {
+        return memes.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        /* Get cell type */
-        let cellReuseIdentifier = "MovieTableViewCell"
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as! MovieTableViewCell!
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("colCell", forIndexPath: indexPath) as! MemeCollectionCell
+        let meme = memes[indexPath.row]
         
-        //get a moive array from BNR core data
-        guard let sections = fetchedResultsController.sections else {
-            assertionFailure("No Sections in fetched results")
-            return cell
-        }
+        // Setup cell
+        cell.memedImage.contentMode = .ScaleAspectFit
+        cell.memedImage.image = meme.memeImage
         
-        let section = sections[indexPath.section]
-        let movie = section.objects[indexPath.row]
-        
-               /* Set cell defaults */
-        cell.picture!.image = UIImage(named: "filmRole")
-        cell.title!.text = movie.title
-        cell.overView.text = movie.overview
-        //cell.picture!.contentMode = UIViewContentMode.ScaleAspectFit
-        
-        cell.activityIndicator.startAnimating()
-        if let posterPath = movie.posterPath {
-            TheMovieDB.sharedInstance().taskForImageWithSize(TheMovieDB.PosterSizes.RowPoster, filePath: posterPath, completionHandler: { (imageData, error) in
-                if let image = UIImage(data: imageData!) {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        cell.picture!.image = image
-                    }
-                } else {
-                    print(error)
-                }
-                cell.activityIndicator.stopAnimating()
-            })
-        }
         return cell
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //print("numberOfRows: \(fetchedResultsController.sections?[section].objects.count ?? 0)")
-        return fetchedResultsController.sections?[section].objects.count ?? 0
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath:NSIndexPath)
+    {
+        
+        let detailController = storyboard!.instantiateViewControllerWithIdentifier("memeDetailView") as! MemeDetailViewController
+        detailController.meme = memes[indexPath.row]
+        detailController.memeIndex = indexPath.row
+        
+        navigationController!.pushViewController(detailController, animated: true)
         
     }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        
-        //get a moive array from BNR core data
-        guard let sections = fetchedResultsController.sections else {
-            assertionFailure("No Sections in fetched results")
-            return
-        }
-        
-        let section = sections[indexPath.section]
-        let movie = section.objects[indexPath.row]
-        
-        let movieDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MovieDetailViewController") as! MovieDetailViewController
-        
-        movieDetailViewController.movie = movie
-        
-//        self.presentViewController(movieDetailViewController, animated: true) {
-//            
-//            // Code
-//        }
-        self.navigationController?.pushViewController(movieDetailViewController, animated: true)
-
-    }
-    
-    func getMovieFromFRC(indexPath: NSIndexPath) -> Movie? {
-        //get a moive array from BNR core data
-        guard let sections = fetchedResultsController.sections else {
-            assertionFailure("No Sections in fetched results")
-            return nil
-        }
-        
-        let section = sections[indexPath.section]
-        let movie = section.objects[indexPath.row]
-        return movie
-        
-    }
-    
-    //MARK: Delete tableview cell
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        
-        if editingStyle == .Delete {
-            if let movieToDelete = getMovieFromFRC(indexPath) {
-                movieToDelete.onWatchlist = NSNumber(bool: false)
-                mainContext().saveContext()
-            }
-            //confirmDelete(movieToDelete)
-        }
-    }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 100
-    }
-
-    
 }
-

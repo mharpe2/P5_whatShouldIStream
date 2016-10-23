@@ -44,7 +44,7 @@ class SettingsTableViewController: UITableViewController {
             print("\(key) -> \(value)")
             objectArray.append(Objects(sectionName: key, sectionObjects: value))
         }
-        objectArray = objectArray.reverse()
+        objectArray = objectArray.reversed()
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,7 +67,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) 
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) 
         
         // Configure the cell...
         cell.textLabel?.text = objectArray[indexPath.section].sectionObjects[indexPath.row]
